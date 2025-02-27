@@ -1,0 +1,12 @@
+﻿using Facts_Domain.FactsDB;
+
+namespace Facts_Business.Repository.IRepository
+{
+    /// <summary>
+    /// Репозиторий для работы с сущностью БД Fact
+    /// </summary>
+    public interface IFactRepository : IRepository<Fact>
+    {
+
+    }
+}
