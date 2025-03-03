@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mapper\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Facts_Common\Facts_Common.csproj" />
     <ProjectReference Include="..\Facts_DataAccess\Facts_DataAccess.csproj" />
     <ProjectReference Include="..\Facts_Domain\Facts_Domain.csproj" />
