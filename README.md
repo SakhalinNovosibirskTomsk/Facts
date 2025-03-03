@@ -4,7 +4,8 @@
 **Назначение сервиса:**
 * регистрация фактов выдачи экземпляров книг читателю
 * регистрация фактов возврата экземпляров книг читателю
-* ввод информации о состоянии экземпляра книги после возврата его читателем
+* ввод информации о состоянии экземпляра книги при выдаче ситателю и после возврата его читателем
+* Ведение справочника состояний экземпляров книг
 
 **Роли пользователей, использующих функционал сервиса:**
 * Администратор
@@ -22,15 +23,15 @@
 * просмотр списков фактов выдачи и возвратов книг
 * поиск по фактам выдачи и возвратов книг
 * просмотр комментариев к фактам возврата экземпляров книг читателем
+* Добавление/Изменение/Удаление в архив/Восстановление из архива статусов состояний экземпляров книг
 
 **Межсервисное взаимодействие**
 
 **С сервисом Calalog - Каталог книг:**
-* получение информации о экземплярах книг - в библиотеке/не в библиотеке, статус состояния экземпляра, забронирована/не забронирована, возможность выдачи на дом или только в читальный зал и тп
+* получение информации о экземплярах книг - в библиотеке/не в библиотеке, забронирована/не забронирована, возможность выдачи на дом или только в читальный зал, списана/не списана  и тп
 * получение информации о книге - ИД, автор, дата издания, издатель, название и прочее
 * максимальное кол-во дней, допустимое для выдачи на руки для вычисления плановой даты возврата
-* список возможных состояний книг для выбора при возврате экземпляра читателем (справочник States сервиса Catalog)
-* Передача сервису Calalog информации о выдаче экземпляра книги читателю и возврате от читателя, даты выдачи или возврата, текущего статуса состояния экземпляра книги
+* Передача сервису Calalog факта о выдаче экземпляра книги читателю и возврате от читателя
 
 **С сервисом "Профиль читателя":**
 * Список читателей библиотеки
@@ -42,18 +43,18 @@
 
 ## Диаграмма вариантов использования сервиса Facts
 
-[![Диаграмма вариантов использования сервиса Facts](https://github.com/den3011den/Library/blob/main/Docs/Services/Facts/UseCases%20сервиса%20Facts.drawio.png)](https://github.com/den3011den/Library/blob/main/Docs/Services/Facts/UseCases%20сервиса%20Facts.drawio.png)
-[Ссылка на картинку](https://github.com/den3011den/Library/blob/main/Docs/Services/Facts/UseCases%20сервиса%20Facts.drawio.png)
+[![Диаграмма вариантов использования сервиса Facts](https://github.com/SakhalinNovosibirskTomsk/Facts/blob/master/Docs/UseCases%20сервиса%20Facts.drawio.png)](https://github.com/SakhalinNovosibirskTomsk/Facts/blob/master/Docs/UseCases%20сервиса%20Facts.drawio.png)
+[Ссылка на картинку](https://github.com/SakhalinNovosibirskTomsk/Facts/blob/master/Docs/UseCases%20сервиса%20Facts.drawio.png)
 
-[Ссылка на исходник схемы](https://github.com/den3011den/Library/blob/main/Docs/Services/Facts/UseCases%20сервиса%20Facts.drawio)
+[Ссылка на исходник схемы](https://github.com/SakhalinNovosibirskTomsk/Facts/blob/master/Docs/UseCases%20сервиса%20Facts.drawio)
 
 ## БД сервиса Facts
 
 ### ER-диаграмма
-[![ER-диаграмма БД сервиса Facts](https://github.com/den3011den/Library/blob/main/Docs/Services/Facts/БД%20сервиса%20Facts.drawio.png)](https://github.com/den3011den/Library/blob/main/Docs/Services/Facts/БД%20сервиса%20Facts.drawio.png)
-[Ссылка на картинку](https://github.com/den3011den/Library/blob/main/Docs/Services/Facts/БД%20сервиса%20Facts.drawio.png)
+[![ER-диаграмма БД сервиса Facts](https://github.com/SakhalinNovosibirskTomsk/Facts/blob/master/Docs/БД%20сервиса%20Facts.drawio.png)](https://github.com/SakhalinNovosibirskTomsk/Facts/blob/master/Docs/БД%20сервиса%20Facts.drawio.png)
+[Ссылка на картинку](https://github.com/SakhalinNovosibirskTomsk/Facts/blob/master/Docs/БД%20сервиса%20Facts.drawio.png)
 
-[Ссылка на исходник схемы](https://github.com/den3011den/Library/blob/main/Docs/Services/Facts/БД%20сервиса%20Facts.drawio)
+[Ссылка на исходник схемы](https://github.com/SakhalinNovosibirskTomsk/Facts/blob/master/Docs/БД%20сервиса%20Facts.drawio)
 
 
 ### Табличное описание
@@ -70,8 +71,8 @@
 |                         | **MemberId**         | int              | Ид читателя                                          | <center>**FK**</center> | not null, Связь по полю Members.Id (сервис Профиля читателя)        |
 |                         | **GiveUserId**       | uniqueidentifier | ИД пользователя, выдавшего читателю книгу            | <center>**FK**</center> | not null, Связь по полю Users.Id (сервис Авторизация и регистрация) |
 |                         | **ReturnUserId**     | uniqueidentifier | ИД пользователя, принявшего назад книгу от  читателя | <center>**FK**</center> | Связь по полю Users.Id (сервис Авторизация и регистрация)           |
-|                         | **StateIdOut**       | int              | ИД статуса состояния книги при выдаче читателю       | <center>**FK**</center> | not null, Связь по полю States.Id (сервис Каталог книг)             |
-|                         | **StateIdIn**        | int              | ИД статуса состояния книги при возврате от  читателя | <center>**FK**</center> | Связь по полю States.Id (сервис Каталог книг)                       |
+|                         | **StateIdOut**       | int              | ИД статуса состояния книги при выдаче читателю       | <center>**FK**</center> | not null, Связь по полю States.Id                                   |
+|                         | **StateIdIn**        | int              | ИД статуса состояния книги при возврате от  читателя | <center>**FK**</center> | Связь по полю States.Id                                             |
 
 ##### FactComments - комментарии для фактов возврата книги
 
@@ -81,3 +82,15 @@
 |                         | **FactId**         | int           | ИД факта                        | <center>**FK**</center> | not null, Связь по полю Facts.Id                               |
 |                         | **BookInstanceId** | int           | ИД экземпляра книги             | <center>**FK**</center> | not null, Связь по полю BookInstances.Id (сервис Каталог книг) |
 |                         | **Comment**        | nvarchar(300) | Комментарий                     |                         | not null                                                       |
+
+##### States - справочник состояний экземпляров книг
+
+| Ключ                    | Наименование       | тип           | Описание                                                                                 | внеш. ключ | Доп инфо                |
+| ----------------------- | ------------------ | ------------- | ---------------------------------------------------------------------------------------- | ---------- | ----------------------- |
+| <center>**PK**</center> | **Id**             | int           | Ид записи                                                                                |            | not null, autoincrement |
+|                         | **Name**           | nvarchar(50)  | Наименование                                                                             |            | not null                |
+|                         | **Description**    | nvarchar(300) | Описание                                                                                 |            |                         |
+|                         | **IsInitialState** | bit           | Состояние по умолчанию для новых книг                                                    |            |                         |
+|                         | **NeedComment**    | bit           | признак, что сотояние нуждается в обязательном комментарии факту выдачи и возврате книги |            |                         |
+|                         | **IsArchive**      | bit           | Признак удаления записи в архив                                                          |            |                         |
+
