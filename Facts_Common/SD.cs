@@ -8,5 +8,11 @@
 
         public static int MemberIdForInitialData = 1;
 
+        public enum GetAllItems
+        {
+            ArchiveOnly,
+            NotArchiveOnly,
+            All
+        }
     }
 }

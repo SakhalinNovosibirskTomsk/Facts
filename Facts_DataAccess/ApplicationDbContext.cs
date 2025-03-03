@@ -19,6 +19,11 @@ namespace Facts_DataAccess
         }
 
         /// <summary>
+        /// Статусы состояния экземпляра книги
+        /// </summary>
+        public DbSet<State> States { get; set; }
+
+        /// <summary>
         /// Факт выдачи читателю/возврата от читателя экземпляра книги
         /// </summary>
         public DbSet<Fact> Facts { get; set; }
@@ -38,11 +43,70 @@ namespace Facts_DataAccess
             // TODO разнести для каждой сужности в отдельный класс или метод настройку БД
 
             //------------------------------------------------------------------
+            // Статусы
+            //------------------------------------------------------------------
+            modelBuilder.Entity<State>()
+                .ToTable("States")
+                .ToTable(t => t.HasComment("Справочник статусов состояния экземпляров книг"));
+
+
+            modelBuilder.Entity<State>()
+                .HasKey(u => u.Id);
+
+            modelBuilder.Entity<State>()
+                .HasIndex(nameof(State.Name))
+                .IsUnique()
+                .HasDatabaseName(nameof(State) + nameof(State.Name));
+
+            modelBuilder.Entity<State>()
+                .Property(u => u.Id)
+                .HasComment("ИД записи")
+                .IsRequired();
+
+            modelBuilder.Entity<State>()
+                .Property(u => u.Name)
+                .HasComment("Наименование статуса состояния экземпляра книги")
+                .IsRequired()
+                .HasMaxLength(100);
+
+            modelBuilder.Entity<State>()
+                .Property(u => u.Description)
+                .HasComment("Описание статуса состояния экземпляра книги")
+                .HasMaxLength(1000);
+
+            modelBuilder.Entity<State>()
+                .Property(u => u.IsInitialState)
+                .HasComment("Признак, что состояние является исходным (например, присваивается по умолчанию при поступлении нового экземпляра книги)")
+                .IsRequired()
+                .HasDefaultValue(false);
+
+            modelBuilder.Entity<State>()
+                .Property(u => u.IsNeedComment)
+                .HasComment("Признак, что при выставлении данного состояния экземпляру книги (например, при возврате) требуется обязательный комментарий")
+                .IsRequired()
+                .HasDefaultValue(false);
+
+            modelBuilder.Entity<State>()
+                .Property(u => u.IsArchive)
+                .HasComment("Признак удаления записи в архив")
+                .IsRequired()
+                .HasDefaultValue(false);
+
+
+            //------------------------------------------------------------------
             // Факты выдачи читателю/возврата от читателя экземпляра книги
             //------------------------------------------------------------------
             modelBuilder.Entity<Fact>()
                 .ToTable("Facts")
-                .ToTable(t => t.HasComment("Факты выдачи читателю/возврата от читателя экземпляра книги"));
+                .ToTable(t => t.HasComment("Факты выдачи читателю/возврата от читателя экземпляра книги"))
+                .HasOne(s => s.StateIn)
+                .WithMany(b => b.FactListIn)
+                .HasForeignKey(k => k.StateIdIn);
+
+            modelBuilder.Entity<Fact>()
+                .HasOne(s => s.StateOut)
+                .WithMany(b => b.FactListOut)
+                .HasForeignKey(k => k.StateIdOut);
 
             modelBuilder.Entity<Fact>()
                 .HasKey(u => u.Id);

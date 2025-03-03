@@ -39,49 +39,16 @@ namespace Facts_WebAPI
                 apiAssembly = typeof(CommentsController).Assembly;
                 c.IncludeXmlComments(GetXmlDocumentationFileFor(apiAssembly));
 
+                apiAssembly = typeof(StatesController).Assembly;
+                c.IncludeXmlComments(GetXmlDocumentationFileFor(apiAssembly));
+
                 // include models xml documentation
-                //var modelsAssembly = typeof(Catalog_Models.CatalogModels.Author.AuthorItemCreateUpdateRequest).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.Author.AuthorItemResponse).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.Publisher.PublisherItemCreateUpdateRequest).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.Publisher.PublisherItemResponse).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.State.StateItemCreateRequest).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.State.StateItemResponse).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.State.StateItemUpdateRequest).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.Book.AuthorForBookRequest).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.Book.BookItemResponse).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.Book.BookItemCreateUpdateRequest).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.BookToAuthor.BookToAuthorResponse).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.BookInstance.BookInstanceCreateUpdateRequest).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.BookInstance.BookInstanceResponse).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.BookInstance.BookInstanceUpdateStateRequest).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.BookInstance.BookInstanceUpdateWriteOffRequest).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.BookInstance.BookInstanceIsCheckedOutResponse).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.BookInstance.BookInstanceStateResponse).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-                //modelsAssembly = typeof(Catalog_Models.CatalogModels.BookInstance.BookInstanceWriteOffResponse).Assembly;
-                //c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
-
+                var modelsAssembly = typeof(Facts_Models.FactsModels.State.StateItemCreateRequest).Assembly;
+                c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
+                modelsAssembly = typeof(Facts_Models.FactsModels.State.StateItemResponse).Assembly;
+                c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
+                modelsAssembly = typeof(Facts_Models.FactsModels.State.StateItemUpdateRequest).Assembly;
+                c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
 
                 //c.OperationFilter<ReApplyOptionalRouteParameterOperationFilter>();
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Facts sevice API (Library)", Version = "v1" });
@@ -91,6 +58,7 @@ namespace Facts_WebAPI
             services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IFactRepository, FactRepository>();
             services.AddScoped<IFactCommentRepository, FactCommentRepository>();
+            services.AddScoped<IStateRepository, StateRepository>();
 
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

@@ -34,6 +34,10 @@ namespace Facts_DataAccess.DbInitializer
             _db.Database.EnsureCreated();
             Console.WriteLine("Инициализация БД: Создание БД - Выполнено");
 
+            Console.WriteLine("Инициализация БД: Заполнение таблицы States ... ");
+            FillTable<State>(InitialDataFactory.States);
+            Console.WriteLine("Инициализация БД: Заполнение таблицы States - Выполнено");
+
             Console.WriteLine("Инициализация БД: Заполнение таблицы Facts ... ");
             FillTable<Fact>(InitialDataFactory.Facts);
             Console.WriteLine("Инициализация БД: Заполнение таблицы Facts - Выполнено");

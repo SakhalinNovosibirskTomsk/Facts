@@ -47,9 +47,19 @@
         public int StateIdOut { get; set; }
 
         /// <summary>
-        /// ИД статуса состояния экземпляра книги при возхврате от читателя
+        /// Статус состояния экземпляра книги при выдаче читателю
+        /// </summary>
+        public virtual State StateOut { get; set; }
+
+        /// <summary>
+        /// ИД статуса состояния экземпляра книги при возврате от читателя
         /// </summary>        
         public int? StateIdIn { get; set; } = null;
+
+        /// <summary>
+        /// Статус состояния экземпляра книги при возврте от читателю
+        /// </summary>
+        public virtual State? StateIn { get; set; }
 
         public virtual ICollection<FactComment> FactCommentList { get; set; }
     }
