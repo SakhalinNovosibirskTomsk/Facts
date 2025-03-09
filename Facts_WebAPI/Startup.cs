@@ -36,7 +36,7 @@ namespace Facts_WebAPI
                 var apiAssembly = typeof(FactsController).Assembly;
                 c.IncludeXmlComments(GetXmlDocumentationFileFor(apiAssembly));
 
-                apiAssembly = typeof(CommentsController).Assembly;
+                apiAssembly = typeof(FactCommentsController).Assembly;
                 c.IncludeXmlComments(GetXmlDocumentationFileFor(apiAssembly));
 
                 apiAssembly = typeof(StatesController).Assembly;
@@ -50,6 +50,16 @@ namespace Facts_WebAPI
                 modelsAssembly = typeof(Facts_Models.FactsModels.State.StateItemUpdateRequest).Assembly;
                 c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
 
+                modelsAssembly = typeof(Facts_Models.FactsModels.BookInstance.BookInstanceItemResponse).Assembly;
+                c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
+                modelsAssembly = typeof(Facts_Models.FactsModels.BookInstance.BookInstanceIsCheckedOutResponse).Assembly;
+                c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
+                modelsAssembly = typeof(Facts_Models.FactsModels.BookInstance.BookInstanceIsReservedMemberIdResponse).Assembly;
+                c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
+                modelsAssembly = typeof(Facts_Models.FactsModels.BookInstance.BookInstanceIsWrittenOffResponse).Assembly;
+                c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
+
+
                 //c.OperationFilter<ReApplyOptionalRouteParameterOperationFilter>();
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Facts sevice API (Library)", Version = "v2" });
 
@@ -59,6 +69,7 @@ namespace Facts_WebAPI
             services.AddScoped<IFactRepository, FactRepository>();
             services.AddScoped<IFactCommentRepository, FactCommentRepository>();
             services.AddScoped<IStateRepository, StateRepository>();
+            services.AddScoped<IBookInstanceRepository, BookInstanceRepository>();
 
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

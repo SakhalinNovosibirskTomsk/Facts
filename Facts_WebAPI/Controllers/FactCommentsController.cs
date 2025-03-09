@@ -2,7 +2,7 @@
 
 namespace Facts_WebAPI.Controllers
 {
-    public class CommentsController : ControllerBase
+    public class FactCommentsController : ControllerBase
     {
 
     }

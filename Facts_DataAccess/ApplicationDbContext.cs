@@ -172,9 +172,7 @@ namespace Facts_DataAccess
             modelBuilder.Entity<FactComment>()
                 .ToTable("FactComments")
                 .ToTable(t => t.HasComment("Таблица комментариев фактов выдачи/возврата экземпляров книг"))
-                .HasOne(s => s.Fact)
-                .WithMany(b => b.FactCommentList)
-                .HasForeignKey(k => k.FactId);
+                .HasOne(s => s.Fact);
 
             modelBuilder.Entity<FactComment>()
                 .HasKey(u => u.Id);

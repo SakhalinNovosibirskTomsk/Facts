@@ -1,10 +1,10 @@
-﻿namespace Facts_Domain.FactsDB
+﻿namespace Facts_Models.FactsModels.State
 {
 
     /// <summary>
-    /// Факт выдачи читателю/возврата от читателя экземпляра книги
+    /// Статус состояния экземпляра книги (объект-ответ)
     /// </summary>
-    public class Fact : BaseEntity
+    public class FactItemResponse
     {
         /// <summary>
         /// ИД экземпляра книги
@@ -42,28 +42,15 @@
         public Guid? ReturnUserId { get; set; } = null;
 
         /// <summary>
-        /// ИД статуса состояния экземпляра книги при выдаче читателю
-        /// </summary>
-        public int StateIdOut { get; set; }
-
-        /// <summary>
         /// Статус состояния экземпляра книги при выдаче читателю
         /// </summary>
-        public virtual State StateOut { get; set; }
-
-        /// <summary>
-        /// ИД статуса состояния экземпляра книги при возврате от читателя
-        /// </summary>        
-        public int? StateIdIn { get; set; } = null;
+        public StateItemResponse StateOut { get; set; }
 
         /// <summary>
         /// Статус состояния экземпляра книги при возврте от читателю
         /// </summary>
-        public virtual State? StateIn { get; set; }
+        public StateItemResponse? StateIn { get; set; }
 
-        /// <summary>
-        /// Комментарий к статусу возврата экземпляра книги читателем
-        /// </summary>
-        public virtual FactComment? FactComment { get; set; } = null;
+        public FactCommentItemResponse? FactComment { get; set; }
     }
 }
