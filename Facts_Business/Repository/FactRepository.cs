@@ -1,7 +1,7 @@
 ﻿using Facts_Business.Repository.IRepository;
 using Facts_DataAccess;
 using Facts_Domain.FactsDB;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Facts_Business.Repository
 {
@@ -28,6 +28,41 @@ namespace Facts_Business.Repository
                 .OrderBy(u => u.FromDate)
                 .ToList();
             return gotFacts;
+        }
+
+        /// <summary>
+        /// Получить текущий статус экземпляра книги
+        /// </summary>
+        /// <param name="bookInstanceId">ИД экземпляра книги</param>
+        /// <returns>Текущий статус экземпляра книги</returns>
+        public async Task<State> GetCurrentBookInstanceStateAsync(int bookInstanceId)
+        {
+            var foundFact = await _db.Facts
+                    .Include(u => u.StateIn)
+                    .Where(u => u.BookInstanceId == bookInstanceId && u.StateIdIn != null)
+                    .OrderBy(u => u.DateOfReturn)
+                    .LastOrDefaultAsync();
+            if (foundFact != null)
+                return foundFact.StateIn;
+            else
+            {
+                return await _db.States.FirstOrDefaultAsync(u => u.IsInitialState);
+            }
+        }
+
+        /// <summary>
+        /// Получить факт по ИД
+        /// </summary>
+        /// <param name="id">ИД факта</param>
+        /// <returns>Найденый факт</returns>
+        public new async Task<Fact> GetByIdAsync(int id)
+        {
+            var foundFact = await _db.Facts
+                .Include(u => u.StateOut)
+                .Include(u => u.StateIn)
+                .Include(u => u.FactComment)
+                .FirstOrDefaultAsync(u => u.Id == id);
+            return foundFact;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Facts_Domain.FactsDB;
 using Facts_Models.FactsModels.BookInstance;
+using Facts_Models.FactsModels.Fact;
 using Facts_Models.FactsModels.State;
 
 namespace Facts_Business.Mapper
@@ -14,6 +15,7 @@ namespace Facts_Business.Mapper
             CreateMap<State, StateItemUpdateRequest>();
 
             CreateMap<Fact, FactItemResponse>();
+            CreateMap<Fact, FactCheckOutItemResponse>();
 
             CreateMap<FactComment, FactCommentItemResponse>();
 

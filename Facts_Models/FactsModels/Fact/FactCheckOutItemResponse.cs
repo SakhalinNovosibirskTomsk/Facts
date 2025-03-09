@@ -1,12 +1,10 @@
-﻿using Facts_Models.FactsModels.State;
-
-namespace Facts_Models.FactsModels.Fact
+﻿namespace Facts_Models.FactsModels.State
 {
 
     /// <summary>
-    /// Статус состояния экземпляра книги (объект-ответ)
+    /// Информация о выдаче экземпляра книги
     /// </summary>
-    public class FactItemResponse
+    public class FactCheckOutItemResponse
     {
         /// <summary>
         /// ИД факта
@@ -29,11 +27,6 @@ namespace Facts_Models.FactsModels.Fact
         public DateTime PlanDateOfReturn { get; set; }
 
         /// <summary>
-        /// Дата возврата экземпляра книги читателем
-        /// </summary>        
-        public DateTime? DateOfReturn { get; set; } = null;
-
-        /// <summary>
         /// ИД читателя, которому выдан экземпляр книги
         /// </summary>
         public int MemberId { get; set; }
@@ -44,20 +37,8 @@ namespace Facts_Models.FactsModels.Fact
         public Guid GiveUserId { get; set; } = Guid.NewGuid();
 
         /// <summary>
-        /// ИД пользователя, добавившего информацию о возврате экземпляра книги читателем
-        /// </summary>
-        public Guid? ReturnUserId { get; set; } = null;
-
-        /// <summary>
         /// Статус состояния экземпляра книги при выдаче читателю
         /// </summary>
         public StateItemResponse StateOut { get; set; }
-
-        /// <summary>
-        /// Статус состояния экземпляра книги при возврте от читателю
-        /// </summary>
-        public StateItemResponse? StateIn { get; set; }
-
-        public FactCommentItemResponse? FactComment { get; set; }
     }
 }
