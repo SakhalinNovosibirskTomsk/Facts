@@ -64,6 +64,21 @@ namespace Facts_WebAPI.Controllers
             return Ok(_mapper.Map<Fact, FactItemResponse>(fact));
         }
 
+        /// <summary>
+        /// Получить текущее состояние экземпляра книги
+        /// </summary>
+        /// <param name="bookInstanceId">ИД факта</param>
+        /// <returns>Возвращает текущий статус экземпляра книги - объект типа StateItemResponse</returns>
+        /// <response code="200">Успешное выполнение</response>        
+        [HttpGet("GetCurrentStateByBookInstanceId/{bookInstanceId:int}")]
+        [ProducesResponseType(typeof(StateItemResponse), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<StateItemResponse>> GetCurrentStateByBookInstanceIdAsync(int bookInstanceId)
+        {
+            var state = await _factRepository.GetCurrentBookInstanceStateAsync(bookInstanceId);
+
+            return Ok(_mapper.Map<State, StateItemResponse>(state));
+        }
+
 
         [HttpPost("{bookInstanceId:int}/{memberId:int}")]
         [ProducesResponseType(typeof(FactCheckOutItemResponse), (int)HttpStatusCode.Created)]

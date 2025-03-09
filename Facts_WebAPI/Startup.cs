@@ -59,6 +59,11 @@ namespace Facts_WebAPI
                 modelsAssembly = typeof(Facts_Models.FactsModels.BookInstance.BookInstanceIsWrittenOffResponse).Assembly;
                 c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
 
+                modelsAssembly = typeof(Facts_Models.FactsModels.Fact.FactItemResponse).Assembly;
+                c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
+                modelsAssembly = typeof(Facts_Models.FactsModels.Fact.FactCheckOutItemResponse).Assembly;
+                c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
+
 
                 //c.OperationFilter<ReApplyOptionalRouteParameterOperationFilter>();
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Facts sevice API (Library)", Version = "v2" });

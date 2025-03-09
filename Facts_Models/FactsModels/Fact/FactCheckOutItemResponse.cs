@@ -1,4 +1,6 @@
-﻿namespace Facts_Models.FactsModels.State
+﻿using Facts_Models.FactsModels.State;
+
+namespace Facts_Models.FactsModels.Fact
 {
 
     /// <summary>
