@@ -46,6 +46,10 @@ namespace Facts_DataAccess.DbInitializer
             FillTable<FactComment>(InitialDataFactory.FactComments);
             Console.WriteLine("Инициализация БД: Заполнение таблицы FactComments - Выполнено");
 
+            Console.WriteLine("Инициализация БД: Заполнение таблицы BookInstances ... ");
+            FillTable<BookInstance>(InitialDataFactory.BookInstances);
+            Console.WriteLine("Инициализация БД: Заполнение таблицы BookInstances - Выполнено");
+
         }
 
 

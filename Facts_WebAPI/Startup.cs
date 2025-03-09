@@ -51,7 +51,7 @@ namespace Facts_WebAPI
                 c.IncludeXmlComments(GetXmlDocumentationFileFor(modelsAssembly));
 
                 //c.OperationFilter<ReApplyOptionalRouteParameterOperationFilter>();
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Facts sevice API (Library)", Version = "v1" });
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Facts sevice API (Library)", Version = "v2" });
 
             });
 

@@ -33,6 +33,11 @@ namespace Facts_DataAccess
         /// </summary>
         public DbSet<FactComment> FactComments { get; set; }
 
+        /// <summary>
+        /// Информация о выдаче, бронировании и списании экземпляров книг
+        /// </summary>
+        public DbSet<BookInstance> BookInstances { get; set; }
+
 
         /// <summary>
         /// Настройка сопоставления модели данных с БД
@@ -201,6 +206,43 @@ namespace Facts_DataAccess
                 .IsRequired();
 
             //------------------------------------------------------------------
+
+            //------------------------------------------------------------------
+            // Информация о выдаче, бронировании и списании экземпляров книг
+            //------------------------------------------------------------------
+            modelBuilder.Entity<BookInstance>()
+                .ToTable("BookInstances")
+                .ToTable(t => t.HasComment("Информация о выдаче, бронировании и списании экземпляров книг"));
+
+
+            modelBuilder.Entity<BookInstance>()
+                .HasKey(u => u.Id);
+
+            modelBuilder.Entity<BookInstance>()
+                .Property(u => u.Id)
+                .HasComment("ИД экземпляра книги")
+                .IsRequired();
+
+            modelBuilder.Entity<BookInstance>()
+                .Property(u => u.IsCheckedOut)
+                .HasComment("Признак выдан ли экземпляр книги читателю")
+                .IsRequired()
+                .HasDefaultValue(false);
+
+            modelBuilder.Entity<BookInstance>()
+                .Property(u => u.IsReservedMemberId)
+                .HasComment("ИД читателя, забронировавшего экземпляр книги")
+                .IsRequired()
+                .HasDefaultValue(0);
+
+            modelBuilder.Entity<BookInstance>()
+                .Property(u => u.IsWrittenOff)
+                .HasComment("Признак списан ли экземпляр книги")
+                .IsRequired()
+                .HasDefaultValue(false);
+
+            //------------------------------------------------------------------
+
         }
     }
 }

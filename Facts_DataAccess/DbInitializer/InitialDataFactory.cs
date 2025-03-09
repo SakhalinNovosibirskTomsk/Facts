@@ -206,5 +206,18 @@ namespace Facts_DataAccess.DbInitializer
                     Comment = "На обложке и некоторых страницах жирные пятна. Некоторые (больше 10) сраниц склеены скотчем. Страницы с содержанием утеряны."
                 },
         };
+
+        /// <summary>
+        /// Информация о выдаче, бронировании и списании экземпляров книг
+        /// </summary>
+        public static List<BookInstance> BookInstances => new List<BookInstance>()
+        {
+            new BookInstance
+                {
+                    IsCheckedOut = true,
+                    IsReservedMemberId = 0,
+                    IsWrittenOff  = false
+                },
+        };
     }
 }
