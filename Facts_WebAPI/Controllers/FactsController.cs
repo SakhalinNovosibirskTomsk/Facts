@@ -5,7 +5,10 @@ using Facts_Domain.FactsDB;
 using Facts_Models.CatalogModels;
 using Facts_Models.FactsModels.Fact;
 using Facts_Models.FactsModels.State;
+using Facts_WebAPI.Controllers.Services.IServices;
+using Facts_WebAPI.Service.ServiceModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Net;
 
 namespace Facts_WebAPI.Controllers
@@ -13,6 +16,7 @@ namespace Facts_WebAPI.Controllers
     public class FactsController : ControllerBase
     {
 
+        private readonly ICatalogService _catalogService;
         private readonly IFactRepository _factRepository;
         private readonly IBookInstanceRepository _bookInstanceRepository;
         private readonly IStateRepository _stateRepository;
@@ -21,11 +25,13 @@ namespace Facts_WebAPI.Controllers
             IFactRepository factRepository,
             IBookInstanceRepository bookInstanceRepository,
             IStateRepository stateRepository,
+            ICatalogService catalogService,
             IMapper mapper)
         {
             _factRepository = factRepository;
             _bookInstanceRepository = bookInstanceRepository;
             _stateRepository = stateRepository;
+            _catalogService = catalogService;
             _mapper = mapper;
         }
 
@@ -100,12 +106,38 @@ namespace Facts_WebAPI.Controllers
             }
 
             // TODO Запросить у Catalog BookInstanceOnlyForReadingRoomResponse
+            //var accessToken = await HttpContext.GetTokenAsync("access_token");
+            //var response = await _catalogService.GetOutMaxDaysByBookInstanceIdAsync<ResponseDTO>(bookInstanceId, "");
+
             var bookInstanceOnlyForReadingRoomResponse = new BookInstanceOnlyForReadingRoomResponse
             { OnlyForReadingRoom = false };
+
+            var response = await _catalogService.GetOnlyForReadingRoomByBookInstanceIdAsync<ResponseDTO>(bookInstanceId);
+
+            if (response != null && response.IsSuccess)
+            {
+                BookInstanceOnlyForReadingRoomResponse bookInstanceOnlyForReadingRoomResponseFromCatalog = JsonConvert.DeserializeObject<BookInstanceOnlyForReadingRoomResponse>(Convert.ToString(response.Result));
+                bookInstanceOnlyForReadingRoomResponse = bookInstanceOnlyForReadingRoomResponseFromCatalog;
+            }
+            else
+                return BadRequest("Для экземпляра книги с ИД = " + bookInstanceId.ToString() + " не удалось получить OnlyForReadingRoom от сервиса CatalogAPI");
 
             // TODO Запросить у Catalog BookInstanceOutMaxDaysResponse
             var bookInstanceOutMaxDaysResponse = new BookInstanceOutMaxDaysResponse
             { OutMaxDays = 14 };
+
+            //var accessToken = await HttpContext.GetTokenAsync("access_token");
+            //var response = await _catalogService.GetOutMaxDaysByBookInstanceIdAsync<ResponseDTO>(bookInstanceId, "");
+            response = await _catalogService.GetOutMaxDaysByBookInstanceIdAsync<ResponseDTO>(bookInstanceId);
+
+            if (response != null && response.IsSuccess)
+            {
+                BookInstanceOutMaxDaysResponse bookInstanceOutMaxDaysResponseFromCatalog = JsonConvert.DeserializeObject<BookInstanceOutMaxDaysResponse>(Convert.ToString(response.Result));
+                bookInstanceOutMaxDaysResponse = bookInstanceOutMaxDaysResponseFromCatalog;
+            }
+            else
+                return BadRequest("Для экземпляра книги с ИД = " + bookInstanceId.ToString() + " не удалось получить OutMaxDays от сервиса CatalogAPI");
+
 
             if ((bookInstanceOnlyForReadingRoomResponse == null) || (bookInstanceOutMaxDaysResponse == null))
                 return BadRequest("Не удалось получить данные по экземпляру книги с ИД = " + bookInstanceId.ToString() + " у сервиса Catalog");

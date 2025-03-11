@@ -4,6 +4,8 @@ using Facts_Common;
 using Facts_DataAccess;
 using Facts_DataAccess.DbInitializer;
 using Facts_WebAPI.Controllers;
+using Facts_WebAPI.Controllers.Services.IServices;
+using Facts_WebAPI.Service;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
@@ -23,6 +25,11 @@ namespace Facts_WebAPI
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddHttpClient<ICatalogService, CatalogService>();
+            SD.CatalogAPIBase = Configuration["ServiceUrls:CatalogAPI"];
+
+            services.AddScoped<ICatalogService, CatalogService>();
 
             SD.SqlCommandConnectionTimeout = int.Parse(Configuration.GetValue<string>("SqlCommandConnectionTimeout"));
 
@@ -75,6 +82,7 @@ namespace Facts_WebAPI
             services.AddScoped<IFactCommentRepository, FactCommentRepository>();
             services.AddScoped<IStateRepository, StateRepository>();
             services.AddScoped<IBookInstanceRepository, BookInstanceRepository>();
+
 
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

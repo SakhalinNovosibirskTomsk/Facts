@@ -14,5 +14,15 @@
             NotArchiveOnly,
             All
         }
+
+        public static string CatalogAPIBase { get; set; }
+
+        public enum ApiType
+        {
+            GET,
+            POST,
+            PUT,
+            DELETE
+        }
     }
 }
