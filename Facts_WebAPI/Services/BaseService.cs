@@ -6,9 +6,20 @@ using System.Text;
 
 namespace Facts_WebAPI.Service
 {
+
+    /// <summary>
+    /// Реализация базового класса запроса к сторонним сервисам
+    /// </summary>
     public class BaseService : IBaseService
     {
+        /// <summary>
+        /// Модель ответа
+        /// </summary>
         public ResponseDTO responseModel { get; set; }
+
+        /// <summary>
+        /// http-клиент
+        /// </summary>
         public IHttpClientFactory httpClient { get; set; }
 
 
@@ -19,26 +30,27 @@ namespace Facts_WebAPI.Service
         }
 
 
+        /// <summary>
+        /// Запрос по REST API
+        /// </summary>
+        /// <typeparam name="T">Тип возвращаемого значения</typeparam>
+        /// <param name="apiRequest">Объект с параметрами запроса</param>
+        /// <returns>Возвращает объект, полученный в результате запроса</returns>
         public async Task<T> SendAsync<T>(ApiRequest apiRequest)
         {
             try
             {
                 var client = httpClient.CreateClient("FactsAPI");
                 HttpRequestMessage message = new HttpRequestMessage();
-                //message.Headers.Add("Accept", "application/json");
-                message.Headers.Add("Accept", "text/plain");
+                message.Headers.Add("Accept", "application/json");
+                //message.Headers.Add("Accept", "text/plain");
                 message.RequestUri = new Uri(apiRequest.ApiUrl);
                 client.DefaultRequestHeaders.Clear();
                 if (apiRequest.Data != null)
                 {
-                    //message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Data), Encoding.UTF8, "application/json");
-                    message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Data), Encoding.UTF8, "text/plain");
+                    message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Data), Encoding.UTF8, "application/json");
+                    //message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Data), Encoding.UTF8, "text/plain");
                 }
-
-                //if (!string.IsNullOrEmpty(apiRequest.AccessToken))
-                //{
-                //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.AccessToken);
-                //}
 
                 HttpResponseMessage apiResponse = null;
                 switch (apiRequest.ApiType)
@@ -59,7 +71,7 @@ namespace Facts_WebAPI.Service
                 apiResponse = await client.SendAsync(message);
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();
                 var apiResponseDto = JsonConvert.DeserializeObject<T>(apiContent);
-                //-- Вроде этого не должно быть, но без этого не работате -->
+                //-- Вроде этого не должно быть, но без этого не работает -->
                 apiResponseDto.GetType().GetProperty("Result").SetValue(apiResponseDto, apiContent);
                 //-- Вроде этого не должно быть, но без этого не работате <--
                 return apiResponseDto;

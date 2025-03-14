@@ -2,6 +2,9 @@
 
 namespace Facts_WebAPI.Service.ServiceModels
 {
+    /// <summary>
+    /// Класс параметров запроса по http
+    /// </summary>
     public class ApiRequest
     {
         public ApiType ApiType { get; set; } = ApiType.GET;
