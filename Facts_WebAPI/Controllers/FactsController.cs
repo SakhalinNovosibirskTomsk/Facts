@@ -86,10 +86,19 @@ namespace Facts_WebAPI.Controllers
         }
 
 
+        /// <summary>
+        /// Добавить факт выдачи экземпляра книги читателю
+        /// </summary>
+        /// <param name="bookInstanceId">ИД экземпляра книги</param>
+        /// <param name="memberId">ИД читателя</param>
+        /// <returns>Объект с информации о созданном факте выдачи читателю экземпляра книги</returns>
+        /// <response code="201">Создан факт выдачи экземпляра книги читателю</response>
+        /// <response code="400">Не удалось создать факт выдачи экземпляра книги читателю. Подробнее о причинах - в ответе от сервера </response>
         [HttpPost("{bookInstanceId:int}/{memberId:int}")]
         [ProducesResponseType(typeof(FactCheckOutItemResponse), (int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<List<FactCheckOutItemResponse>>> AddCheckOutFactAsync(int bookInstanceId, int memberId)
+
+        public async Task<ActionResult<FactCheckOutItemResponse>> AddCheckOutFactAsync(int bookInstanceId, int memberId)
         {
 
             var foundBookInstance = await _bookInstanceRepository.GetByIdAsync(bookInstanceId);
@@ -105,10 +114,6 @@ namespace Facts_WebAPI.Controllers
                         return BadRequest("Экземпляр книги с ИД = " + bookInstanceId.ToString() + " уже зарезервирован читателем с ИД " + memberId.ToString());
             }
 
-            // TODO Запросить у Catalog BookInstanceOnlyForReadingRoomResponse
-            //var accessToken = await HttpContext.GetTokenAsync("access_token");
-            //var response = await _catalogService.GetOutMaxDaysByBookInstanceIdAsync<ResponseDTO>(bookInstanceId, "");
-
             var bookInstanceOnlyForReadingRoomResponse = new BookInstanceOnlyForReadingRoomResponse
             { OnlyForReadingRoom = false };
 
@@ -122,12 +127,9 @@ namespace Facts_WebAPI.Controllers
             else
                 return BadRequest("Для экземпляра книги с ИД = " + bookInstanceId.ToString() + " не удалось получить OnlyForReadingRoom от сервиса CatalogAPI");
 
-            // TODO Запросить у Catalog BookInstanceOutMaxDaysResponse
             var bookInstanceOutMaxDaysResponse = new BookInstanceOutMaxDaysResponse
             { OutMaxDays = 14 };
 
-            //var accessToken = await HttpContext.GetTokenAsync("access_token");
-            //var response = await _catalogService.GetOutMaxDaysByBookInstanceIdAsync<ResponseDTO>(bookInstanceId, "");
             response = await _catalogService.GetOutMaxDaysByBookInstanceIdAsync<ResponseDTO>(bookInstanceId);
 
             if (response != null && response.IsSuccess)
