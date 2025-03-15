@@ -28,5 +28,13 @@ namespace Facts_Business.Repository.IRepository
         /// <returns>Найденый факт</returns>
         public Task<Fact> GetByIdAsync(int id);
 
+        /// <summary>
+        /// Получить информацию о факте выдачи экземпляра книги читателю
+        /// </summary>
+        /// <param name="bookInstanceId">ИД экземпляра книги</param>
+        /// <param name="memberId">ИД читателя</param>
+        /// <returns>Факт выдачи экземпляра книги читателю</returns>
+        public Task<Fact> GetCheckOutInfoByBookInstanceIsAndMemberIdAsync(int bookInstanceId, int memberId);
+
     }
 }

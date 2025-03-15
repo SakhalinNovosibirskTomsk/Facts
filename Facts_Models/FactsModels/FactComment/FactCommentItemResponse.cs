@@ -1,4 +1,4 @@
-﻿namespace Facts_Models.FactsModels.State
+﻿namespace Facts_Models.FactsModels.FactComment
 {
 
     /// <summary>

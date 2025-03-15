@@ -64,5 +64,21 @@ namespace Facts_Business.Repository
                 .FirstOrDefaultAsync(u => u.Id == id);
             return foundFact;
         }
+
+        /// <summary>
+        /// Получить информацию о факте выдачи экземпляра книги читателю
+        /// </summary>
+        /// <param name="bookInstanceId">ИД экземпляра книги</param>
+        /// <param name="memberId">ИД читателя</param>
+        /// <returns>Факт выдачи экземпляра книги читателю</returns>
+        public async Task<Fact> GetCheckOutInfoByBookInstanceIsAndMemberIdAsync(int bookInstanceId, int memberId)
+        {
+            var foundFact = await _db.Facts
+                .Include(u => u.StateIn)
+                .Where(u => u.BookInstanceId == bookInstanceId && u.MemberId == memberId)
+                    .OrderBy(u => u.FromDate)
+                    .LastOrDefaultAsync();
+            return foundFact;
+        }
     }
 }

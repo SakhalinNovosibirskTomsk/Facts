@@ -2,6 +2,7 @@
 using Facts_Domain.FactsDB;
 using Facts_Models.FactsModels.BookInstance;
 using Facts_Models.FactsModels.Fact;
+using Facts_Models.FactsModels.FactComment;
 using Facts_Models.FactsModels.State;
 
 namespace Facts_Business.Mapper
